@@ -36,13 +36,20 @@ const EmployeeList = () => {
       setIsLoading(false);
     };
     fetchEmployees();
-  }, [selectedEmployee]);
+  }, []);
 
   /* Handle add Emplyee */
   const handleAdd = async (data) => {
     try {
       await addEmployee(data);
-      setEmployees([...employees, data]);
+      try {
+        const response = await getAllEmployees();
+        setEmployees(response);
+        setIsLoading(false);
+      } catch (error) {
+        console.error("Error in fetching/setting the Employee", error);
+      }
+      // setEmployees([...employees, data]);
     } catch (error) {
       console.error("Error in adding the Employee", error);
     }
@@ -53,6 +60,13 @@ const EmployeeList = () => {
     try {
       await hardDeleteEmployee(id);
       setEmployees(employees.filter((employee) => employee._id !== id));
+      try {
+        const response = await getAllEmployees();
+        setEmployees(response);
+        setIsLoading(false);
+      } catch (error) {
+        console.error("Error in fetching/setting the Employee", error);
+      }
       setSelectedEmployee(null);
     } catch (error) {
       console.error("Error in deleting the Employee", error);
@@ -64,6 +78,13 @@ const EmployeeList = () => {
   const handleEdit = async (id, data) => {
     try {
       await updateEmployee(id, data);
+      try {
+        const response = await getAllEmployees();
+        setEmployees(response);
+        setIsLoading(false);
+      } catch (error) {
+        console.error("Error in fetching/setting the Employee", error);
+      }
       setSelectedEmployee(null);
     } catch (error) {
       console.error("Error in editing the Employee", error);

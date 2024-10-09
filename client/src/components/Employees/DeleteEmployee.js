@@ -15,7 +15,7 @@ const DeleteEmployee = ({ id, handleDelete, handleClose }) => {
           <p className="text-lg">
             Are you sure you want to delete this employee?
           </p>
-          <div className="flex justify-between items-center mt-5">
+          <div className="flex justify-around items-center mt-5">
             <button
               onClick={async () => {
                 await handleDelete(id);
